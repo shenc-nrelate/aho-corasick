@@ -10,8 +10,9 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
- *
- * Based on the Aho-Corasick white paper, Bell technologies: ftp://163.13.200.222/assistant/bearhero/prog/%A8%E4%A5%A6/ac_bm.pdf
+ * Based on the Aho-Corasick white paper, Bell technologies:
+ * ftp://163.13.200.222/assistant/bearhero/prog/%A8%E4%A5%A6/ac_bm.pdf
+ * 
  * @author Robert Bor
  */
 public class Trie {
@@ -58,7 +59,6 @@ public class Trie {
     }
 
     public Collection<Token> tokenize(String text) {
-
         Collection<Token> tokens = new ArrayList<Token>();
 
         Collection<Emit> collectedEmits = parseText(text);
@@ -77,12 +77,15 @@ public class Trie {
         return tokens;
     }
 
-    private Token createFragment(Emit emit, String text, int lastCollectedPosition) {
-        return new FragmentToken(text.substring(lastCollectedPosition+1, emit == null ? text.length() : emit.getStart()));
+    private Token createFragment(Emit emit, String text,
+            int lastCollectedPosition) {
+        return new FragmentToken(text.substring(lastCollectedPosition + 1,
+                emit == null ? text.length() : emit.getStart()));
     }
 
     private Token createMatch(Emit emit, String text) {
-        return new MatchToken(text.substring(emit.getStart(), emit.getEnd()+1), emit);
+        return new MatchToken(
+                text.substring(emit.getStart(), emit.getEnd() + 1), emit);
     }
 
     /**
@@ -139,21 +142,24 @@ public class Trie {
         }
 
         if (!trieConfig.isAllowOverlaps()) {
-            IntervalTree intervalTree = new IntervalTree((List<Intervalable>)(List<?>)collectedEmits);
-            intervalTree.removeOverlaps((List<Intervalable>) (List<?>) collectedEmits);
+            IntervalTree intervalTree = new IntervalTree(
+                    (List<Intervalable>) (List<?>) collectedEmits);
+            intervalTree
+                    .removeOverlaps((List<Intervalable>) (List<?>) collectedEmits);
         }
 
         return collectedEmits;
     }
 
-    private void removePartialMatches(String searchText, List<Emit> collectedEmits) {
+    private void removePartialMatches(String searchText,
+            List<Emit> collectedEmits) {
         long size = searchText.length();
         List<Emit> removeEmits = new ArrayList<Emit>();
         for (Emit emit : collectedEmits) {
-            if ((emit.getStart() == 0 ||
-                 !Character.isAlphabetic(searchText.charAt(emit.getStart() - 1))) &&
-                (emit.getEnd() + 1 == size ||
-                 !Character.isAlphabetic(searchText.charAt(emit.getEnd() + 1)))) {
+            if ((emit.getStart() == 0 || !Character.isAlphabetic(searchText
+                    .charAt(emit.getStart() - 1)))
+                    && (emit.getEnd() + 1 == size || !Character
+                            .isAlphabetic(searchText.charAt(emit.getEnd() + 1)))) {
                 continue;
             }
             removeEmits.add(emit);
@@ -208,11 +214,13 @@ public class Trie {
         }
     }
 
-    private void storeEmits(int position, State currentState, List<Emit> collectedEmits) {
+    private void storeEmits(int position, State currentState,
+            List<Emit> collectedEmits) {
         Collection<String> emits = currentState.emit();
         if (emits != null && !emits.isEmpty()) {
             for (String emit : emits) {
-                collectedEmits.add(new Emit(position-emit.length()+1, position, emit));
+                collectedEmits.add(new Emit(position - emit.length() + 1,
+                        position, emit));
             }
         }
     }

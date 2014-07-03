@@ -9,7 +9,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 
 public class IntervalTreeTest {
-    
+
     @Test
     public void findOverlaps() {
         List<Intervalable> intervals = new ArrayList<Intervalable>();
@@ -20,7 +20,8 @@ public class IntervalTreeTest {
         intervals.add(new Interval(4, 6));
         intervals.add(new Interval(5, 7));
         IntervalTree intervalTree = new IntervalTree(intervals);
-        List<Intervalable> overlaps = intervalTree.findOverlaps(new Interval(1,3));
+        List<Intervalable> overlaps = intervalTree.findOverlaps(new Interval(1,
+                3));
         assertEquals(3, overlaps.size());
         Iterator<Intervalable> overlapsIt = overlaps.iterator();
         assertOverlap(overlapsIt.next(), 2, 4);
@@ -43,9 +44,10 @@ public class IntervalTreeTest {
 
     }
 
-    protected void assertOverlap(Intervalable interval, int expectedStart, int expectedEnd) {
+    protected void assertOverlap(Intervalable interval, int expectedStart,
+            int expectedEnd) {
         assertEquals(expectedStart, interval.getStart());
         assertEquals(expectedEnd, interval.getEnd());
     }
-    
+
 }

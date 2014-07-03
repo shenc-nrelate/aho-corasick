@@ -6,7 +6,9 @@ import java.util.List;
 
 public class IntervalNode {
 
-    private enum Direction { LEFT, RIGHT }
+    private enum Direction {
+        LEFT, RIGHT
+    }
 
     private IntervalNode left = null;
     private IntervalNode right = null;
@@ -58,21 +60,28 @@ public class IntervalNode {
         List<Intervalable> overlaps = new ArrayList<Intervalable>();
 
         if (this.point < interval.getStart()) { // Tends to the right
-            addToOverlaps(interval, overlaps, findOverlappingRanges(this.right, interval));
-            addToOverlaps(interval, overlaps, checkForOverlapsToTheRight(interval));
+            addToOverlaps(interval, overlaps,
+                    findOverlappingRanges(this.right, interval));
+            addToOverlaps(interval, overlaps,
+                    checkForOverlapsToTheRight(interval));
         } else if (this.point > interval.getEnd()) { // Tends to the left
-            addToOverlaps(interval, overlaps, findOverlappingRanges(this.left, interval));
-            addToOverlaps(interval, overlaps, checkForOverlapsToTheLeft(interval));
+            addToOverlaps(interval, overlaps,
+                    findOverlappingRanges(this.left, interval));
+            addToOverlaps(interval, overlaps,
+                    checkForOverlapsToTheLeft(interval));
         } else { // Somewhere in the middle
             addToOverlaps(interval, overlaps, this.intervals);
-            addToOverlaps(interval, overlaps, findOverlappingRanges(this.left, interval));
-            addToOverlaps(interval, overlaps, findOverlappingRanges(this.right, interval));
+            addToOverlaps(interval, overlaps,
+                    findOverlappingRanges(this.left, interval));
+            addToOverlaps(interval, overlaps,
+                    findOverlappingRanges(this.right, interval));
         }
 
         return overlaps;
     }
 
-    protected void addToOverlaps(Intervalable interval, List<Intervalable> overlaps, List<Intervalable> newOverlaps) {
+    protected void addToOverlaps(Intervalable interval,
+            List<Intervalable> overlaps, List<Intervalable> newOverlaps) {
         for (Intervalable currentInterval : newOverlaps) {
             if (!currentInterval.equals(interval)) {
                 overlaps.add(currentInterval);
@@ -84,32 +93,34 @@ public class IntervalNode {
         return checkForOverlaps(interval, Direction.LEFT);
     }
 
-    protected List<Intervalable> checkForOverlapsToTheRight(Intervalable interval) {
+    protected List<Intervalable> checkForOverlapsToTheRight(
+            Intervalable interval) {
         return checkForOverlaps(interval, Direction.RIGHT);
     }
 
-    protected List<Intervalable> checkForOverlaps(Intervalable interval, Direction direction) {
+    protected List<Intervalable> checkForOverlaps(Intervalable interval,
+            Direction direction) {
 
         List<Intervalable> overlaps = new ArrayList<Intervalable>();
         for (Intervalable currentInterval : this.intervals) {
             switch (direction) {
-                case LEFT :
-                    if (currentInterval.getStart() <= interval.getEnd()) {
-                        overlaps.add(currentInterval);
-                    }
-                    break;
-                case RIGHT :
-                    if (currentInterval.getEnd() >= interval.getStart()) {
-                        overlaps.add(currentInterval);
-                    }
-                    break;
+            case LEFT:
+                if (currentInterval.getStart() <= interval.getEnd()) {
+                    overlaps.add(currentInterval);
+                }
+                break;
+            case RIGHT:
+                if (currentInterval.getEnd() >= interval.getStart()) {
+                    overlaps.add(currentInterval);
+                }
+                break;
             }
         }
         return overlaps;
     }
 
-
-    protected List<Intervalable> findOverlappingRanges(IntervalNode node, Intervalable interval) {
+    protected List<Intervalable> findOverlappingRanges(IntervalNode node,
+            Intervalable interval) {
         if (node != null) {
             return node.findOverlaps(interval);
         }

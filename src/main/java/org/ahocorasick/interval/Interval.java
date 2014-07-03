@@ -23,8 +23,7 @@ public class Interval implements Intervalable {
     }
 
     public boolean overlapsWith(Interval other) {
-        return this.start <= other.getEnd() &&
-               this.end >= other.getStart();
+        return this.start <= other.getEnd() && this.end >= other.getStart();
     }
 
     public boolean overlapsWith(int point) {
@@ -36,9 +35,8 @@ public class Interval implements Intervalable {
         if (!(o instanceof Intervalable)) {
             return false;
         }
-        Intervalable other = (Intervalable)o;
-        return this.start == other.getStart() &&
-               this.end == other.getEnd();
+        Intervalable other = (Intervalable) o;
+        return this.start == other.getStart() && this.end == other.getEnd();
     }
 
     @Override
@@ -51,7 +49,7 @@ public class Interval implements Intervalable {
         if (!(o instanceof Intervalable)) {
             return -1;
         }
-        Intervalable other = (Intervalable)o;
+        Intervalable other = (Intervalable) o;
         int comparison = this.start - other.getStart();
         return comparison != 0 ? comparison : this.end - other.getEnd();
     }

@@ -69,7 +69,8 @@ public class TrieTest {
         trie.addKeyword("cauliflower");
         trie.addKeyword("broccoli");
         trie.addKeyword("tomatoes");
-        Collection<Emit> emits = trie.parseText("2 cauliflowers, 3 tomatoes, 4 slices of veal, 100g broccoli");
+        Collection<Emit> emits = trie
+                .parseText("2 cauliflowers, 3 tomatoes, 4 slices of veal, 100g broccoli");
         Iterator<Emit> iterator = emits.iterator();
         checkEmit(iterator.next(), 2, 12, "cauliflower");
         checkEmit(iterator.next(), 18, 25, "tomatoes");
@@ -128,7 +129,10 @@ public class TrieTest {
     public void partialMatch() {
         Trie trie = new Trie().onlyWholeWords();
         trie.addKeyword("sugar");
-        Collection<Emit> emits = trie.parseText("sugarcane sugarcane sugar canesugar"); // left, middle, right test
+        Collection<Emit> emits = trie
+                .parseText("sugarcane sugarcane sugar canesugar"); // left,
+                                                                   // middle,
+                                                                   // right test
         assertEquals(1, emits.size()); // Match must not be made
         checkEmit(emits.iterator().next(), 20, 24, "sugar");
     }
@@ -139,7 +143,8 @@ public class TrieTest {
         trie.addKeyword("Alpha");
         trie.addKeyword("Beta");
         trie.addKeyword("Gamma");
-        Collection<Token> tokens = trie.tokenize("Hear: Alpha team first, Beta from the rear, Gamma in reserve");
+        Collection<Token> tokens = trie
+                .tokenize("Hear: Alpha team first, Beta from the rear, Gamma in reserve");
         assertEquals(7, tokens.size());
         Iterator<Token> tokensIt = tokens.iterator();
         assertEquals("Hear: ", tokensIt.next().getFragment());
@@ -195,12 +200,14 @@ public class TrieTest {
 
     @Test
     public void zeroLengthTestBug7InGithubReportedByXCurry() {
-        Trie trie = new Trie().removeOverlaps().onlyWholeWords().caseInsensitive();
+        Trie trie = new Trie().removeOverlaps().onlyWholeWords()
+                .caseInsensitive();
         trie.addKeyword("");
         trie.tokenize("Try a natural lip and subtle bronzer to keep all the focus on those big bright eyes with NARS Eyeshadow Duo in Rated R And the winner is... Boots No7 Advanced Renewal Anti-ageing Glycolic Peel Kit ($25 amazon.com) won most-appealing peel.");
     }
 
-    private void checkEmit(Emit next, int expectedStart, int expectedEnd, String expectedKeyword) {
+    private void checkEmit(Emit next, int expectedStart, int expectedEnd,
+            String expectedKeyword) {
         assertEquals(expectedStart, next.getStart());
         assertEquals(expectedEnd, next.getEnd());
         assertEquals(expectedKeyword, next.getKeyword());

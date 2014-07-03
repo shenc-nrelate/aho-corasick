@@ -1,5 +1,15 @@
-.idea
-*.iml
-src/main/java/Main.java
-*.txt
-docs
+# SBT files
+target/
+lib/
+
+# Eclipse files
+.cache
+.history
+.classpath
+.project
+.settings/
+project/.history
+.worksheet
+
+# Mac files
+.DS_Store
