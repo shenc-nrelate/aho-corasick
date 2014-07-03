@@ -85,6 +85,38 @@ public class Trie {
         return new MatchToken(text.substring(emit.getStart(), emit.getEnd()+1), emit);
     }
 
+    /**
+     * Return true if matched any
+     * 
+     * @param text
+     *            The text to be matched
+     * @return True if matched any, false is no match at all
+     */
+    public boolean matchedAny(String text) {
+        checkForConstructedFailureStates();
+
+        if (trieConfig.isCaseInsensitive()) {
+            text = text.toLowerCase();
+        }
+
+        State currentState = this.rootState;
+        for (Character character : text.toCharArray()) {
+            currentState = getState(currentState, character);
+            Collection<String> emits = currentState.emit();
+            if (emits != null && !emits.isEmpty())
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Parse text and emit all matches
+     * 
+     * @param text
+     *            The text to be parse and checked
+     * @return A collection of matches found
+     */
     @SuppressWarnings("unchecked")
     public Collection<Emit> parseText(String text) {
         checkForConstructedFailureStates();
